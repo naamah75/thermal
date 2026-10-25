@@ -7,7 +7,6 @@ import async_timeout
 
 import io
 import time
-import base64
 
 import numpy as np
 import voluptuous as vol
@@ -34,6 +33,8 @@ from .utils import constrain, map_value
 from .interpolate import interpolate
 from urllib.parse import urljoin
 from .client import ThermalVisionClient
+
+from .pixel_decoder import decode_pixels
 
 from .const import (
     CONF_OVERLAY,
@@ -289,15 +290,15 @@ class ThermalVisionCamera(Camera):
     def _update_pixel_sensor(self):
         """Decode pixels from sensor and update camera image"""
 
-        encoded_pixels = self.hass.states.get(self._pixel_sensor).state
-        _LOGGER.debug("Decoding pixels: %s", encoded_pixels)
-        if encoded_pixels not in [STATE_UNKNOWN, STATE_UNAVAILABLE]:
-            data = []
-            for char in base64.b64decode(encoded_pixels):
-                if char & (1 << 11):
-                    char &= ~(1 << 11)
-                    char = char * -1
-                data.append(char * 0.25)
+        state = self.hass.states.get(self._pixel_sensor)
+        if state is None or state.state in [STATE_UNKNOWN, STATE_UNAVAILABLE]:
+            return
+        try:
+            data = decode_pixels(state.state, self._rows * self._cols)
+        except (ValueError, TypeError):
+            _LOGGER.warning("Invalid thermal frame encoding")
+            return
+        if data:
             self._setup_range(data)
             self._default_image = self._camera_image(data)
 

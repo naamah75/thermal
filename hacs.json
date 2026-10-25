@@ -1,6 +1,4 @@
 {
-  "name": "Thermal Vision",
-  "country": "CA",
-  "homeassistant": "2021.4",
-  "render_readme": true
+  "name": "Thermal Vision (AMG8833 raw16)",
+  "homeassistant": "2026.10.2"
 }

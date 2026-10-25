@@ -1,3 +1,53 @@
+# Thermal Vision — AMG8833 raw16 support
+
+Fork of [TheRealWaldo/thermal](https://github.com/TheRealWaldo/thermal), adding complete AMG8833 pixel decoding for current ESPHome. Companion firmware: [naamah75/AMG8833-ESPHOME](https://github.com/naamah75/AMG8833-ESPHOME).
+
+## Install with HACS
+
+In HACS, open **Custom repositories**, add `https://github.com/naamah75/thermal`, choose **Integration**, then download **Thermal Vision (AMG8833 raw16)** and restart Home Assistant. This fork is available as a custom repository; it is not currently listed in the default HACS catalog.
+
+It keeps the `thermal_vision` integration domain. Install only one version: do not manage this fork and upstream simultaneously. Back up any existing installation before switching; either version will replace the same integration directory.
+
+## Camera configuration
+
+```yaml
+camera:
+  - platform: thermal_vision
+    name: Thermal Camera
+    pixel_sensor: sensor.thermal_sensor_raw_pixels
+    auto_range: true
+    overlay: true
+
+recorder:
+  exclude:
+    entities:
+      - sensor.thermal_sensor_raw_pixels
+      - sensor.thermal_sensor_pixels
+```
+
+Use your actual ESPHome entity ID. The companion firmware exposes both `Sensor Raw Pixels` (recommended with this fork) and the legacy `Sensor Pixels` entity. Restart Home Assistant after editing YAML.
+
+## What changed
+
+- Accepts 128-byte, little-endian AMG8833 frames: 64 pixels with signed-magnitude values and 0.25 °C resolution.
+- Retains support for legacy 64-byte unsigned frames.
+- Ignores absent, unavailable and malformed pixel states instead of failing camera generation.
+- Adds dependency-free decoder tests and HACS/Hassfest validation workflows.
+
+This decoder change affects the `pixel_sensor` path. Other upstream transport paths are retained, without a claim that they have been retested.
+
+## Verified setup
+
+Home Assistant **2026.10.2**, ESPHome **2026.10.0**, Wemos D1 Mini Pro and Grove AMG8833. Live temperatures and a 640×640 JPEG with auto range and overlay were verified on real hardware. The original decoder change was tested on HA; the extracted decoder function has the same conversion and is covered by unit tests.
+
+Run tests with `python -m unittest discover -s tests -v`.
+
+## Attribution
+
+Original Thermal Vision integration by TheRealWaldo, based on eyalcha/thermal. Apache-2.0 licensing is preserved. The original documentation follows; use the fork URL above when installing these changes.
+
+---
+
 # Thermal Vision
 
 [![hacs][hacsbadge]][hacs]
