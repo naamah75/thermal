@@ -6,13 +6,12 @@
   ],
   "dependencies": [],
   "documentation": "https://github.com/naamah75/thermal",
+  "integration_type": "hub",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/naamah75/thermal/issues",
   "requirements": [
     "colour",
-    "numpy",
-    "pillow"
+    "numpy"
   ],
-  "version": "3.1.8",
-  "integration_type": "hub"
+  "version": "3.1.8"
 }
