@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.0
+
+- Add clockwise image rotation at 0, 90, 180, and 270 degrees.
+- Add independent horizontal and vertical mirroring while retaining the legacy
+  `mirror` option as a horizontal-mirror alias.
+
 ## 3.1.8
 
 - Decode complete 128-byte AMG8833 frames, preserving signed-magnitude temperatures.

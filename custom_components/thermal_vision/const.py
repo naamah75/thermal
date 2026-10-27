@@ -2,7 +2,7 @@
 
 DOMAIN = "thermal_vision"
 
-VERSION = "3.1.8"
+VERSION = "3.2.0"
 ISSUE_URL = "https://github.com/naamah75/thermal/issues"
 
 CONF_WIDTH = "width"
@@ -25,6 +25,8 @@ CONF_ROWS = "rows"
 CONF_COLS = "cols"
 CONF_ROTATE = "rotate"
 CONF_MIRROR = "mirror"
+CONF_MIRROR_HORIZONTAL = "mirror_horizontal"
+CONF_MIRROR_VERTICAL = "mirror_vertical"
 CONF_FORMAT = "format"
 CONF_INTERPOLATE = "interpolate"
 CONF_COLD_COLOR = "cold_color"
@@ -54,6 +56,8 @@ DEFAULT_ROWS = 8
 DEFAULT_COLS = 8
 DEFAULT_ROTATE = 0
 DEFAULT_MIRROR = False
+DEFAULT_MIRROR_HORIZONTAL = False
+DEFAULT_MIRROR_VERTICAL = False
 DEFAULT_COLD_COLOR = "indigo"
 DEFAULT_HOT_COLOR = "red"
 DEFAULT_FORMAT = "jpeg"
